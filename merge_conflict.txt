@@ -1,1 +1,2 @@
 Someone has comitted to main
+And someone has committed to the new branch
