@@ -10,6 +10,7 @@ from ser.constants import RESULTS_DIR
 from ser.data import train_dataloader, val_dataloader, test_dataloader
 from ser.params import Params, save_params
 from ser.transforms import transforms, normalize
+from ser.infer import test_model_inference
 
 main = typer.Typer()
 
@@ -59,8 +60,10 @@ def train(
 
 
 @main.command()
-def infer():
-    run_path = Path("./path/to/one/of/your/training/runs")
+def infer(
+    PATH: str = typer.Argument(..., help="Path to model from training runs to run inference on.")
+          ):
+    run_path = Path(PATH)
     label = 6
 
     # select image to run inference for
@@ -73,13 +76,10 @@ def infer():
     model = torch.load(run_path / "model.pt")
 
     # run inference
-    model.eval()
-    output = model(images)
-    pred = output.argmax(dim=1, keepdim=True)[0].item()
-    confidence = max(list(torch.exp(output)[0]))
-    pixels = images[0][0]
-    print(generate_ascii_art(pixels))
-    print(f"This is a {pred}")
+    test_model_inference(model, run_path, label)
+
+
+
 
 
 def generate_ascii_art(pixels):
