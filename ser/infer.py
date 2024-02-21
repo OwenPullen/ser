@@ -5,7 +5,7 @@ def test_model_inference(params, model, image, label):
     print(f"Runing inference on model - {params.name}")
     print(f"Hyperparameters:\n",
           f"EPOCHS: {params.epochs}\n",
-          f"LEARNING RATE: {params.lr}\n",
+          f"LEARNING RATE: {params.learning_rate}\n",
           f"Label of image: {label}"
         )
     model.eval()
