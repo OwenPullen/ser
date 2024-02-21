@@ -72,12 +72,12 @@ def infer(
               help="Label to run inference on."),
     ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    Params = load_params(run_path)
+    params = load_params(run_path)
     # load the model
     model = torch.load(run_path / "model.pt")
     model.to(device)
     image = select_image(label)
-    test_model_inference(model, run_path, label)
+    test_model_inference(params, model, image, label)
 
 def select_image(label):
     dataloader = test_dataloader(1, transforms(normalize))
