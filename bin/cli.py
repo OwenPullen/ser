@@ -61,43 +61,27 @@ def train(
 
 @main.command()
 def infer(
-    PATH: str = typer.Argument(..., help="Path to model from training runs to run inference on.")
-          ):
-    run_path = Path(PATH)
-    label = 6
+        run_path: Path = typer.Option(
+            ...,
+            "--path",
+            help="Path to model from training runs to run inference on."
+        ),
+        label: int = typer.Option(
+            6,
+            "--label",
+              help="Label to run inference on."),
+    ):
+    Params = load_params(run_path)
+    # load the model
+    model = torch.load(run_path / "model.pt")
+    model.to(device)
+    image = select_image(label)
+    test_model_inference(model, run_path, label)
 
-    # select image to run inference for
+def select_image(label):
     dataloader = test_dataloader(1, transforms(normalize))
     images, labels = next(iter(dataloader))
     while labels[0].item() != label:
         images, labels = next(iter(dataloader))
+    return images
 
-    # load the model
-    model = torch.load(run_path / "model.pt")
-
-    # run inference
-    test_model_inference(model, run_path, label)
-
-
-
-
-
-def generate_ascii_art(pixels):
-    ascii_art = []
-    for row in pixels:
-        line = []
-        for pixel in row:
-            line.append(pixel_to_char(pixel))
-        ascii_art.append("".join(line))
-    return "\n".join(ascii_art)
-
-
-def pixel_to_char(pixel):
-    if pixel > 0.99:
-        return "O"
-    elif pixel > 0.9:
-        return "o"
-    elif pixel > 0:
-        return "."
-    else:
-        return " "
