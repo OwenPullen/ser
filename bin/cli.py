@@ -7,7 +7,7 @@ from torch import optim
 # from torchvision import datasets, transforms
 from ser.model import Net
 from ser.transforms import get_transforms
-from ser.train import train as training_loop
+from ser.train import training_wrapper
 import typer
 from ser.data import training_dataloader as train_dl, validation_dataloader as val_dl
 
@@ -50,7 +50,10 @@ def train(
     training_dataloader = train_dl(batch_size, ts)
     validation_dataloader = val_dl(batch_size, ts)
 
-    training_loop(model, device, optimizer, epochs, training_dataloader, validation_dataloader)
+    training_wrapper(model, device, optimizer,
+                   epochs, training_dataloader, 
+                   validation_dataloader, logging_dir=name
+                   )
 
 
 @main.command()
