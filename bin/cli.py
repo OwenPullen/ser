@@ -8,7 +8,7 @@ import git
 from ser.train import train as run_train
 from ser.constants import RESULTS_DIR
 from ser.data import train_dataloader, val_dataloader, test_dataloader
-from ser.params import Params, save_params
+from ser.params import Params, save_params, load_params
 from ser.transforms import transforms, normalize
 from ser.infer import test_model_inference
 
@@ -71,6 +71,7 @@ def infer(
             "--label",
               help="Label to run inference on."),
     ):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     Params = load_params(run_path)
     # load the model
     model = torch.load(run_path / "model.pt")
