@@ -1,12 +1,4 @@
-from ser.data import test_dataloader, normalize
-from ser.transforms import transforms
 import torch
-
-def load_data():
-    dataloader = test_dataloader(1, transforms(normalize))
-    images, labels = next(iter(dataloader))
-    while labels[0].item() != label:
-        mages, labels = next(iter(dataloader))
 
 @torch.no_grad()
 def test_model_inference(params, model, image, label):
