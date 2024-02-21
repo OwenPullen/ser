@@ -2,6 +2,10 @@
 data/MNIST
 .idea
 results/
+experiments/*
+*.pt
+*.pth
+*model*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
