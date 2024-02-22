@@ -10,7 +10,7 @@ from ser.constants import RESULTS_DIR
 from ser.data import train_dataloader, val_dataloader, test_dataloader
 from ser.infer import infer as run_infer
 from ser.params import Params, save_params, load_params
-from ser.transforms import transforms, normalize, flip as flip_transform
+from ser.transforms import transforms, normalize, _configure_transforms
 
 main = typer.Typer()
 
@@ -73,7 +73,7 @@ def infer(
     params = load_params(run_path)
     model = torch.load(run_path / "model.pt")
     model.to("cpu")
-    image = _select_test_image(label)
+    image = _select_test_image(label, flip)
     run_infer(params, model, image, label)
 
 
@@ -82,19 +82,12 @@ def _select_test_image(label, flip=False):
     # image. This works... but in order to add a transformation, or change one,
     # we now have to come and edit the code... which sucks. What if we could
     # configure the transformations via the cli?
-    ts = _configure_transforms(flip)
+    ts = _configure_transforms(flip_img=flip)
     dataloader = test_dataloader(1, transforms(*ts))
     images, labels = next(iter(dataloader))
     while labels[0].item() != label:
         images, labels = next(iter(dataloader))
     return images
-
-def _configure_transforms(flip):
-    if flip:
-       ts = [normalize, flip_transform]
-    else: ts = [normalize]
-    return ts
-
 
 
 if __name__ == "__main__":
