@@ -30,6 +30,6 @@ def flip():
 
 def _configure_transforms(flip_img=False):
     if flip_img:
-       ts = [normalize, flip]
-    else: ts = [normalize]
-    return ts
+       ts = [normalize(), flip()]
+    else: ts = [normalize()]
+    return torch_transforms.Compose(ts)
