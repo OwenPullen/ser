@@ -2,6 +2,7 @@
 data/MNIST
 .idea
 results/
+*.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -133,3 +134,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode/launch.json
+.vscode/settings.json
