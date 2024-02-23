@@ -17,10 +17,11 @@ def test_normalize():
     x = [[[1, 2, 3], [1, 2, 3], [1, 2, 3]]]
     x = torch.tensor(x, dtype=torch.float)
     normalized_tensor = normalize()(x)
-    assert normalized_tensor == torch.tensor([[[1, 3, 5],
+    assert torch.all(normalized_tensor == torch.tensor([[[1, 3, 5],
                                         [1, 3, 5],
                                         [1, 3, 5]]],
                                         dtype=torch.float)
+    ) == True
     
     
 def test_configure_transforms():
@@ -28,9 +29,9 @@ def test_configure_transforms():
     x = torch.tensor(x, dtype=torch.float32)
     transform = _configure_transforms(flip_img=True)
     transformed_x = transform(x)
-    assert transformed_x == torch.tensor([[[5, 3, 1],
+    assert torch.all(transformed_x == torch.tensor([[[5, 3, 1],
                                     [5, 3, 1],
                                     [5, 3, 1]]],
                                     dtype=torch.float32)
-    
+    ) == True
 
