@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict
 import json
-
+from pathlib import Path
 
 @dataclass
 class Params:
@@ -11,7 +11,7 @@ class Params:
     commit: str
 
 
-PARAMS_FILE = "params.json"
+PARAMS_FILE = Path("params.json")
 
 
 def save_params(run_path, params):
