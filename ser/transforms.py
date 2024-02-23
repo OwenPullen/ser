@@ -28,8 +28,8 @@ def flip():
         ]
     )
 
-def _configure_transforms(flip_img=False):
+def configure_transforms(flip_img=False):
+    ts = [normalize]
     if flip_img:
-       ts = [normalize(), flip()]
-    else: ts = [normalize()]
-    return torch_transforms.Compose(ts)
+        ts.append(flip)
+    return ts
