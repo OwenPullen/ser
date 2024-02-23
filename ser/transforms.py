@@ -27,3 +27,9 @@ def flip():
             torch_transforms.RandomVerticalFlip(p=1.0),
         ]
     )
+
+def configure_transforms(flip_img=False):
+    ts = [normalize]
+    if flip_img:
+        ts.append(flip)
+    return ts
